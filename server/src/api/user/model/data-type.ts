@@ -11,4 +11,11 @@ export interface IUserRepository {
   update(id: string, data: any): Promise<any>;
   findByEmail(email: string): Promise<any>;
   findByUsername(username: string): Promise<any>;
+  get(id: string): Promise<any>;
 }
+
+export type UpdateInfo = {
+  status?: string;
+  email?: string;
+  username?: string;
+};
