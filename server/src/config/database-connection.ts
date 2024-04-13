@@ -1,7 +1,12 @@
 const { Database } = require("./database");
-import { Response, NextFunction } from "express";
 
-const getConfig = (env: string) => {
+/**
+ * Retrieves the appropriate database URL based on the environment.
+ *
+ * @param {string} env - the environment to determine the database URL for
+ * @return {any} the database URL based on the environment
+ */
+const getConfig = (env: string): any => {
   return env === "test"
     ? process.env.TEST_DATABASE_URL
     : env === "development"
@@ -11,14 +16,17 @@ const getConfig = (env: string) => {
     : process.env.PRODUCTION_DATABASE_URL;
 };
 
+/**
+ * Function to initialize the database.
+ *
+ * @param {any} env - optional environment variable
+ * @return {Promise<Database>} Promise that resolves to the Database
+ */
 const initialiseDatabase = (env?: any) => {
   if (!Database.connection.readyState) {
     let config = getConfig(env);
 
-    return Database.connect(config, {
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-    })
+    return Database.connect(config, {})
       .then(() =>
         console.log(
           "DB connection up... & using %s database connection...",
@@ -31,97 +39,4 @@ const initialiseDatabase = (env?: any) => {
   return Database;
 };
 
-const databaseMiddleware = async (res: Response, next: NextFunction) => {
-  try {
-    await initialiseDatabase();
-    next();
-  } catch (error) {
-    console.error("Database error on middleware", error);
-    return error;
-  }
-};
-
-const openDatabaseConnection = (environment: any) => {
-  try {
-    initialiseDatabase(environment).then((conn: any) => conn);
-  } catch (error) {
-    console.error("Error starting initiating database ", error);
-  }
-};
-
-const closeDatabaseConnection = () => {
-  if (Database && Database.connection && Database.connection.readyState === 1) {
-    Database.connection
-      .close()
-      .catch((e: Error) =>
-        console.error("error while closing database connection \n", e)
-      );
-  }
-};
-
-const dropDatabase = () => {
-  if (Database && Database.connection) {
-    Database.connection
-      .dropDatabase()
-      .catch((e: Error) =>
-        console.error("error while dropping the database \n", e)
-      );
-  }
-};
-
-const dropCollection = (collectionName: any) => {
-  if (Database && Database.connection) {
-    Database.connection
-      .dropCollection(collectionName)
-      .catch((e: Error) =>
-        console.error(
-          "error while droping database collection for %s \n",
-          collectionName,
-          e
-        )
-      );
-  }
-};
-
-const createCollection = (collectionName: any) => {
-  if (Database && Database.connection) {
-    Database.connection
-      .createCollection(collectionName)
-      .catch((e: Error) =>
-        console.error(
-          "error while creating database collection for %s \n",
-          collectionName,
-          e
-        )
-      );
-  }
-};
-
-const deleteAllCollectionRecords = (dbContext: any) => {
-  if (
-    dbContext &&
-    dbContext instanceof Database.Model &&
-    dbContext.deleteMany
-  ) {
-    dbContext
-      .deleteMany({})
-      .then()
-      .catch((e: Error) =>
-        console.error(
-          "error while deleting all records from collection %s \n",
-          e
-        )
-      );
-  }
-};
-
-export {
-  initialiseDatabase,
-  databaseMiddleware,
-  openDatabaseConnection,
-  closeDatabaseConnection,
-  dropDatabase,
-  dropCollection,
-  createCollection,
-  deleteAllCollectionRecords,
-};
+export { initialiseDatabase };
