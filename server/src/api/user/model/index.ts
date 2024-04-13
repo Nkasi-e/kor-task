@@ -5,11 +5,11 @@ const UserSchema = new Schema<User>(
   {
     id: Schema.Types.ObjectId,
     username: { type: String },
-    email: { type: String },
-    status: { type: String },
+    email: { type: String, default: null },
+    status: { type: String, default: null },
     friends: [{ type: Schema.Types.ObjectId, ref: "user" }],
   },
-  { timestamps: true, minimize: false, id: true }
+  { timestamps: true, minimize: true, id: true }
 );
 
 export default Model<User>("user", UserSchema);
