@@ -30,6 +30,20 @@ class UserHandler implements IUserRepository {
     return handleResponseFormat(userEmail);
   }
 
+  async findOne(usernameOrEmail: string): Promise<any> {
+    const user = await handleAsyncRequest(
+      UserSchema.findOne({
+        $or: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
+      })
+    );
+    return handleResponseFormat(user);
+  }
+
+  async get(id: string): Promise<any> {
+    const user = await handleAsyncRequest(UserSchema.findById({ _id: id }));
+
+    return handleResponseFormat(user);
+  }
   async findByUsername(username: string): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.findOne({ username }));
     return handleResponseFormat(user);

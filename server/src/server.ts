@@ -9,7 +9,8 @@ import {
 } from "./middleware/health-check";
 dotenv.config();
 
-// import authRouter from "./api/auth";
+import authRouter from "./api/auth";
+import userRouter from "./api/user";
 
 const app: Application = express();
 const server = http.createServer(app);
@@ -22,7 +23,8 @@ app.use(express.json());
 app.use(cors({}));
 
 // Routes
-// app.use("/v1/auth", authRouter);
+app.use("/v1/auth", authRouter);
+app.use("/v1/user", userRouter);
 
 // Health Check
 app.get("/v1/ping", handleAPIHealthChecks);
