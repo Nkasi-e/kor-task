@@ -1,0 +1,41 @@
+import UserSchema from "./model";
+import { IUserRepository } from "./model/data-type";
+import { handleAsyncRequest, handleResponseFormat } from "../../common/helper";
+
+class UserHandler implements IUserRepository {
+  async create(data: any): Promise<any> {
+    const user = await handleAsyncRequest(UserSchema.create(data));
+    return handleResponseFormat(user);
+  }
+  async update(id: string, data: any): Promise<any> {
+    const options = {
+      lean: true,
+      new: true,
+      upsert: true,
+      fields: {} as { [key: string]: number },
+    };
+
+    Object.keys(data).forEach((field) => {
+      options.fields[field] = 1;
+    });
+    const user = await handleAsyncRequest(
+      UserSchema.findByIdAndUpdate({ _id: id }, data, options)
+    );
+
+    return handleResponseFormat(user);
+  }
+
+  async findByEmail(email: string): Promise<any> {
+    const userEmail = await handleAsyncRequest(UserSchema.findOne({ email }));
+    return handleResponseFormat(userEmail);
+  }
+
+  async findByUsername(username: string): Promise<any> {
+    const user = await handleAsyncRequest(UserSchema.findOne({ username }));
+    return handleResponseFormat(user);
+  }
+}
+
+const UserRepository = new UserHandler();
+
+export default UserRepository;
