@@ -28,6 +28,11 @@ class Validator {
     username: Joi.string().min(3).max(100).messages(ErrorMessage.username),
   });
 
+  private static validateFriendReqInput: ObjectSchema = Joi.object({
+    sender_id: Joi.string().min(3).max(100).required(),
+    receiver_id: Joi.string().min(1).max(100).required(),
+  });
+
   private static options: any = { language: { key: "{{key}}" } };
 
   static validateSignup(entry: object): ValidationResult {
@@ -40,6 +45,10 @@ class Validator {
 
   static validateProfileInput(entry: object): ValidationResult {
     return this.validateUpdateInput.validate(entry, this.options);
+  }
+
+  static validateFriendRequestInput(entry: object): ValidationResult {
+    return this.validateFriendReqInput.validate(entry, this.options);
   }
 }
 
