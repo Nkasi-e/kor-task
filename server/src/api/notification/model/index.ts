@@ -3,12 +3,12 @@ import { Model, Schema } from "../../../config/database";
 
 const NotificationSchema = new Schema<INotification>({
   id: Schema.Types.ObjectId,
-  user_id: { type: Schema.Types.ObjectId, ref: "user", required: true },
+  receiver_id: { type: Schema.Types.ObjectId, ref: "user", required: true },
   message: { type: String, required: true },
   type: {
     type: String,
     enum: [
-      "friend_request",
+      "friend_request_sent",
       "friend_request_accepted",
       "friend_request_rejected",
       "status_update",

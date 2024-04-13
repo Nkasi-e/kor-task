@@ -10,6 +10,13 @@ class FriendRequestHandler implements IFriendRequestRepository {
     return handleResponseFormat(friendRequest);
   }
 
+  async get(id: string): Promise<any> {
+    const request = await handleAsyncRequest(
+      FriendRequestSchema.findById({ _id: id })
+    );
+    return handleResponseFormat(request);
+  }
+
   async update(id: string, data: any): Promise<any> {
     const options = {
       lean: true,
@@ -23,6 +30,23 @@ class FriendRequestHandler implements IFriendRequestRepository {
     });
     const request = await handleAsyncRequest(
       FriendRequestSchema.findByIdAndUpdate({ _id: id }, data, options)
+    );
+
+    return handleResponseFormat(request);
+  }
+
+  async findOne(senderId: string, receiverId: string): Promise<any> {
+    const request = await handleAsyncRequest(
+      FriendRequestSchema.findOne({
+        sender_id: senderId,
+        receiver_id: receiverId,
+      })
+    );
+    return handleResponseFormat(request);
+  }
+  async remove(id: string): Promise<any> {
+    const request = await handleAsyncRequest(
+      FriendRequestSchema.findByIdAndDelete({ _id: id })
     );
 
     return handleResponseFormat(request);

@@ -11,6 +11,7 @@ dotenv.config();
 
 import authRouter from "./api/auth";
 import userRouter from "./api/user";
+import friendRequestRouter from "./api/friend-request";
 
 const app: Application = express();
 const server = http.createServer(app);
@@ -25,6 +26,7 @@ app.use(cors({}));
 // Routes
 app.use("/v1/auth", authRouter);
 app.use("/v1/user", userRouter);
+app.use("/v1/friend-request", friendRequestRouter);
 
 // Health Check
 app.get("/v1/ping", handleAPIHealthChecks);
