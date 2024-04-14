@@ -2,6 +2,7 @@ import UserRepository from "./repository";
 import Validator from "../../common/validator";
 import { UpdateInfo } from "./model/data-type";
 import BadRequestError from "../../error/BadRequestError";
+import { io } from "../../server";
 
 /**
  * Validates the update information request data and throws errors for invalid data.
@@ -39,8 +40,17 @@ const getUser = async (data: any): Promise<any> => {
 };
 
 /**
- * Creates a new user by first generating a signup payload using the provided data, and then
- * calling the UserRepository to create the user.
+ * Retrieves all users from the UserRepository.
+ *
+ * @return {Promise<any>} The list of all users.
+ */
+const getAllUsers = async (): Promise<any> => {
+  return await UserRepository.getAll();
+};
+
+/**
+ *  update payload using the provided data, and then
+ * calling the UserRepository to update user status the user.
  *
  * @param {UpdateInfo} data - the data object containing information to register a new user
  * @return {Promise<any>} a promise that resolves with the result of creating the new user
@@ -48,7 +58,14 @@ const getUser = async (data: any): Promise<any> => {
 const update = async (id: any, data: UpdateInfo): Promise<any> => {
   validateUpdateRequest(data);
   const user = await getUser(id);
-  return await UserRepository.update(user.id, data);
+  const updatedStatus = await UserRepository.update(user.id, data);
+  user.friends.map((friendsId: any) => {
+    io.to(friendsId).emit("status_update", {
+      message: `${user.username} just updated their status`,
+    });
+  });
+
+  return updatedStatus;
 };
 
-export default { update, getUser };
+export default { update, getUser, getAllUsers };

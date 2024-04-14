@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import http from "http";
 import express, { Application } from "express";
 import morgan from "morgan";
+import { setupSocket } from "./socket";
 import cors from "cors";
 import {
   handleAPIHealthChecks,
@@ -15,6 +16,7 @@ import friendRequestRouter from "./api/friend-request";
 
 const app: Application = express();
 const server = http.createServer(app);
+const io = setupSocket(server);
 
 //middlewares
 app.disable("x-powered-by");
@@ -25,11 +27,11 @@ app.use(cors({}));
 
 // Routes
 app.use("/v1/auth", authRouter);
-app.use("/v1/user", userRouter);
+app.use("/v1/users", userRouter);
 app.use("/v1/friend-request", friendRequestRouter);
 
 // Health Check
 app.get("/v1/ping", handleAPIHealthChecks);
 app.get("*", handleAPIWhitlistEndponts);
 
-export { server, app };
+export { server, app, io };

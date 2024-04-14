@@ -7,6 +7,7 @@ class UserHandler implements IUserRepository {
     const user = await handleAsyncRequest(UserSchema.create(data));
     return handleResponseFormat(user);
   }
+
   async update(id: string, data: any): Promise<any> {
     const options = {
       lean: true,
@@ -19,7 +20,7 @@ class UserHandler implements IUserRepository {
       options.fields[field] = 1;
     });
     const user = await handleAsyncRequest(
-      UserSchema.findByIdAndUpdate({ _id: id }, data, options)
+      UserSchema.findByIdAndUpdate(id, data, options)
     );
 
     return handleResponseFormat(user);
@@ -39,8 +40,14 @@ class UserHandler implements IUserRepository {
     return handleResponseFormat(user);
   }
 
-  async get(id: string): Promise<any> {
-    const user = await handleAsyncRequest(UserSchema.findById({ _id: id }));
+  async getAll(): Promise<any> {
+    const user = await handleAsyncRequest(UserSchema.find());
+    console.log(user.error);
+    return handleResponseFormat(user);
+  }
+
+  async get(id: any): Promise<any> {
+    const user = await handleAsyncRequest(UserSchema.findById(id));
 
     return handleResponseFormat(user);
   }

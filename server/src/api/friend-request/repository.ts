@@ -11,9 +11,7 @@ class FriendRequestHandler implements IFriendRequestRepository {
   }
 
   async get(id: string): Promise<any> {
-    const request = await handleAsyncRequest(
-      FriendRequestSchema.findById({ _id: id })
-    );
+    const request = await handleAsyncRequest(FriendRequestSchema.findById(id));
     return handleResponseFormat(request);
   }
 
@@ -29,7 +27,7 @@ class FriendRequestHandler implements IFriendRequestRepository {
       options.fields[field] = 1;
     });
     const request = await handleAsyncRequest(
-      FriendRequestSchema.findByIdAndUpdate({ _id: id }, data, options)
+      FriendRequestSchema.findByIdAndUpdate(id, data, options)
     );
 
     return handleResponseFormat(request);
@@ -44,9 +42,10 @@ class FriendRequestHandler implements IFriendRequestRepository {
     );
     return handleResponseFormat(request);
   }
+
   async remove(id: string): Promise<any> {
     const request = await handleAsyncRequest(
-      FriendRequestSchema.findByIdAndDelete({ _id: id })
+      FriendRequestSchema.findByIdAndDelete(id)
     );
 
     return handleResponseFormat(request);
