@@ -1,9 +1,11 @@
+import mongoose from "mongoose";
+
 export interface User {
-  id: string;
+  id: mongoose.Types.ObjectId;
   username: string;
   email: string;
   status: string;
-  friends: [];
+  friends: string[];
 }
 
 export interface IUserRepository {
@@ -15,7 +17,5 @@ export interface IUserRepository {
 }
 
 export type UpdateInfo = {
-  status?: string;
-  email?: string;
-  username?: string;
+  status: string;
 };

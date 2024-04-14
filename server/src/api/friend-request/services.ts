@@ -4,11 +4,12 @@ import UserRepository from "../user/repository";
 import NotificationRepository from "../notification/repository";
 import BadRequestError from "../../error/BadRequestError";
 import ConflictRequestError from "../../error/ConflictRequestError";
-
+import { io } from "../../server";
 import NotFoundError from "../../error/NotFoundError";
 import { FriendRequest } from "./model/data-type";
 import Validator from "../../common/validator";
 
+// const io = getIO();
 /**
  * Validates the request data and throws a BadRequestError if validation fails.
  *
@@ -39,7 +40,7 @@ const createSendFriendRequestNotification = (data: any, sender: any): any => {
     ...data,
     receiver_id: data.receiver_id,
     message: `You have a new friend request from ${sender.username}`,
-    type: "friend_request_sent",
+    type: "friend_request",
   };
 };
 
@@ -68,6 +69,10 @@ const sendFriendRequest = async (data: FriendRequest): Promise<any> => {
   if (existingRequest) {
     throw new ConflictRequestError("Friend request already sent");
   }
+
+  io.to(receiver.id).emit("friend_request", {
+    message: `You have a new friend request from ${sender.username}`,
+  });
   const payload = createSendFriendRequestNotification(data, sender);
 
   await NotificationRepository.create(payload);
@@ -112,12 +117,15 @@ const acceptFriendRequest = async (requestId: string): Promise<any> => {
   const receiver = await UserSchema.findById(receiverId);
   const sender = await UserSchema.findById(senderId);
 
-  (receiver?.friends as any[]).push(senderId.toString());
-  (sender?.friends as any[]).push(receiverId.toString());
+  (receiver?.friends as any[]).push(senderId);
+  (sender?.friends as any[]).push(receiverId);
 
   receiver?.save();
   sender?.save();
 
+  io.to(sender?.id).emit("friend_request", {
+    message: `${receiver?.username} accepted your friend request`,
+  });
   const payload = createAcceptFriendRequestNotification(sender, receiver);
   await NotificationRepository.create(payload);
 

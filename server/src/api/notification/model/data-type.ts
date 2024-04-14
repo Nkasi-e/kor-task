@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
+
 export interface INotification {
-  id: string;
+  id: mongoose.Types.ObjectId;
   message: string;
   type: string;
   receiver_id: string | object;

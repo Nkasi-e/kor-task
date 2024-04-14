@@ -9,7 +9,7 @@ const UserSchema = new Schema<User>(
     status: { type: String, default: null },
     friends: [{ type: Schema.Types.ObjectId, ref: "user" }],
   },
-  { timestamps: true, minimize: true, id: true }
+  { timestamps: true, minimize: false, id: true }
 );
 
 export default Model<User>("user", UserSchema);

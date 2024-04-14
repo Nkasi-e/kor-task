@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 
 /**
  * Handles user update by updating an existing account info.
@@ -7,7 +8,7 @@ import { Request, Response } from "express";
  * @param {any} presenters - functions to present success or error responses
  * @return {Promise<any>} returns a promise with the result of the sign up operation
  */
-const upUserHandler = (deps: any, presenters: any): any => {
+const updateUserStatusHandler = (deps: any, presenters: any): any => {
   return async (req: Request, res: Response): Promise<any> => {
     try {
       const payload = await deps.update(req.params.user_id, req.body);
@@ -54,4 +55,20 @@ const getUserByIdHandler = (deps: any, presenters: any): any => {
   };
 };
 
-export default { upUserHandler, getUserHandler, getUserByIdHandler };
+const getAllUserHandler = (deps: any, presenters: any): any => {
+  return async (req: Request, res: Response): Promise<any> => {
+    try {
+      const payload = await deps.getAllUsers(req.params.user_id);
+      return presenters.ok(res, payload);
+    } catch (error: any) {
+      return presenters.error(res, error);
+    }
+  };
+};
+
+export default {
+  updateUserStatusHandler,
+  getUserHandler,
+  getUserByIdHandler,
+  getAllUserHandler,
+};

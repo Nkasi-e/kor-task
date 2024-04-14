@@ -1,6 +1,6 @@
 import UserRepository from "../user/repository";
 import Validator from "../../common/validator";
-import { RegisterUser } from "./data-type";
+import { LoginUser, RegisterUser } from "./data-type";
 import BadRequestError from "../../error/BadRequestError";
 import ConflictRequestError from "../../error/ConflictRequestError";
 
@@ -65,7 +65,7 @@ const getUser = async (data: any): Promise<any> => {
  * @param {LoginUser} data - the login user data to be validated and used for sign-in
  * @return {Promise<any>} the user object after sign-in
  */
-const performSignin = async (data: RegisterUser): Promise<any> => {
+const performSignin = async (data: LoginUser): Promise<any> => {
   // - find the user account
   const user = await getUser(data);
 

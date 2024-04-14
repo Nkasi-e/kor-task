@@ -7,7 +7,7 @@ const router = Router();
 
 router.patch(
   "/update/:user_id",
-  RequestHandler.upUserHandler(UserDependencies, ResponseHandler)
+  RequestHandler.updateUserStatusHandler(UserDependencies, ResponseHandler)
 );
 
 router.get(
@@ -18,6 +18,11 @@ router.get(
 router.get(
   "/profile/:user_id",
   RequestHandler.getUserByIdHandler(UserDependencies, ResponseHandler)
+);
+
+router.get(
+  "/",
+  RequestHandler.getAllUserHandler(UserDependencies, ResponseHandler)
 );
 
 export default router;
