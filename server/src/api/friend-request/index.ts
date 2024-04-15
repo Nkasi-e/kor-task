@@ -22,7 +22,7 @@ router.patch(
 );
 
 router.patch(
-  "/:request_id/reject",
+  "/:request_id/decline",
   RequestHandler.rejectFriendRequestHandler(
     SendFriendRequestDependencies,
     ResponseHandler

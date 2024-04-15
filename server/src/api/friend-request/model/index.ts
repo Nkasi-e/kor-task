@@ -9,7 +9,7 @@ const FriendRequestSchema = new Schema<IRequest>(
     status: {
       type: String,
       required: true,
-      enum: ["pending", "accepted", "rejected"],
+      enum: ["pending", "accepted", "declined"],
       default: "pending",
     },
   },

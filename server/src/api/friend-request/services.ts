@@ -147,7 +147,7 @@ const rejectFriendRequest = async (requestId: string): Promise<any> => {
   }
 
   await FriendRequestRepository.update(friendRequest.id, {
-    status: "rejected",
+    status: "declined",
   });
 
   return await FriendRequestRepository.remove(friendRequest.id);
