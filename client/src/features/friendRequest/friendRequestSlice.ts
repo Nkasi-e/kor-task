@@ -15,7 +15,7 @@ export const sendRequest = createAsyncThunk(
   "friend-request",
   async (requestData: RequestProperties, thunkAPI) => {
     try {
-      const response = await axios.post("${url}/friend-request/", requestData);
+      const response = await axios.post(`${url}/friend-request/`, requestData);
       return response.data;
     } catch (error: any) {
       const message =

@@ -1,18 +1,16 @@
 import FriendRequestSchema from "./model";
-import { handleAsyncRequest, handleResponseFormat } from "../../common/helper";
+import { handleAsyncRequest } from "../../common/helper";
 import { IFriendRequestRepository } from "./model/data-type";
 
 class FriendRequestHandler implements IFriendRequestRepository {
   async create(data: any): Promise<any> {
-    const friendRequest = await handleAsyncRequest(
-      FriendRequestSchema.create(data)
-    );
-    return handleResponseFormat(friendRequest);
+    const request = await handleAsyncRequest(FriendRequestSchema.create(data));
+    return request;
   }
 
   async get(id: string): Promise<any> {
     const request = await handleAsyncRequest(FriendRequestSchema.findById(id));
-    return handleResponseFormat(request);
+    return request;
   }
 
   async update(id: string, data: any): Promise<any> {
@@ -30,7 +28,7 @@ class FriendRequestHandler implements IFriendRequestRepository {
       FriendRequestSchema.findByIdAndUpdate(id, data, options)
     );
 
-    return handleResponseFormat(request);
+    return request;
   }
 
   async findOne(senderId: string, receiverId: string): Promise<any> {
@@ -40,7 +38,7 @@ class FriendRequestHandler implements IFriendRequestRepository {
         receiver_id: receiverId,
       })
     );
-    return handleResponseFormat(request);
+    return request;
   }
 
   async remove(id: string): Promise<any> {
@@ -48,7 +46,7 @@ class FriendRequestHandler implements IFriendRequestRepository {
       FriendRequestSchema.findByIdAndDelete(id)
     );
 
-    return handleResponseFormat(request);
+    return request;
   }
 }
 

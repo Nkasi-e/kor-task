@@ -120,8 +120,7 @@ const acceptFriendRequest = async (requestId: string): Promise<any> => {
   (receiver?.friends as any[]).push(senderId);
   (sender?.friends as any[]).push(receiverId);
 
-  receiver?.save();
-  sender?.save();
+  Promise.all([receiver?.save(), sender?.save()]);
 
   io.to(sender?.id).emit("friend_request", {
     message: `${receiver?.username} accepted your friend request`,

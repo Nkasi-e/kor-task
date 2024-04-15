@@ -6,7 +6,7 @@ import { url } from "../../common/api"; // set to env when on production for bes
 
 const initialState = {
   users: [] as UserProperties[],
-  user: {},
+  user: {} as UserProperties,
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -30,7 +30,7 @@ export const getUser = createAsyncThunk(
   "user/profile",
   async (userId: string, thunkAPI) => {
     try {
-      const response = await axios.get(`/users/${userId}`);
+      const response = await axios.get(`${url}/users/${userId}`);
       return response.data;
     } catch (error: any) {
       const message =
@@ -71,7 +71,7 @@ const userSlice = createSlice({
   reducers: {
     reset: (state) => {
       state.users = [];
-      state.user = {};
+      state.user = {} as UserProperties;
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;

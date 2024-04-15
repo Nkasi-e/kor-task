@@ -12,16 +12,21 @@ const Header = () => {
       <header className="text-#3B3B3B py-4 bg-cover bg-center h-auto md:h-10 px-4 md:px-10">
         <div className="container mx-auto flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center">
-            <p className="text-4xl font-bold text-blue-600 uppercase tracking-wider">
-              KOR
-            </p>
+          <div className="flex items-center gap-5">
+            <Link to="/">
+              <p className="text-4xl font-bold text-blue-600 uppercase tracking-wider">
+                KOR
+              </p>
+            </Link>
+            <h1 className="text-4xl font-bold text-grey-600">Dashboard</h1>
           </div>
 
           {/* Navigation Links */}
           <div className="flex justify-center hidden md:flex md:space-x-4 align-middle item-center gap-2">
             <h2 className="font-bold text-2xl">
-              {userInfo?.username ? userInfo.username : userInfo.email}
+              <Link to="/profile">
+                {userInfo?.username ? userInfo.username : userInfo.email}
+              </Link>
             </h2>
             <h3>
               <Link

@@ -1,5 +1,5 @@
 import NotificationSchema from "./model";
-import { handleAsyncRequest, handleResponseFormat } from "../../common/helper";
+import { handleAsyncRequest } from "../../common/helper";
 import { INotificationRepository } from "./model/data-type";
 
 class NotificationHandler implements INotificationRepository {
@@ -7,7 +7,7 @@ class NotificationHandler implements INotificationRepository {
     const notification = await handleAsyncRequest(
       NotificationSchema.create(data)
     );
-    return handleResponseFormat(notification);
+    return notification;
   }
 }
 

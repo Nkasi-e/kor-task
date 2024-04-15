@@ -1,6 +1,6 @@
 import UserSchema from "./model";
 import { IUserRepository } from "./model/data-type";
-import { handleAsyncRequest, handleResponseFormat } from "../../common/helper";
+import { handleAsyncRequest } from "../../common/helper";
 
 class UserHandler implements IUserRepository {
   async create(data: any): Promise<any> {

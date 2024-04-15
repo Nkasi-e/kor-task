@@ -44,7 +44,7 @@ const RegisterScreen = () => {
     try {
       dispatch(register(formDataToSend)).unwrap();
       toast.success("Account created successfully");
-      navigate("/");
+      navigate("/profile");
     } catch (error: unknown) {
       toast.error(error as string);
     }

@@ -58,7 +58,7 @@ const getAllUsers = async (): Promise<any> => {
 const update = async (id: any, data: UpdateInfo): Promise<any> => {
   validateUpdateRequest(data);
   const user = await getUser(id);
-  const updatedStatus = await UserRepository.update(user.id, data);
+  const updatedStatus = await UserRepository.update(user._id, data);
   user.friends.map((friendsId: any) => {
     io.to(friendsId).emit("status_update", {
       message: `${user.username} just updated their status`,

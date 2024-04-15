@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
-import Header from "../../components/header";
+
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../store/store";
 import { getAllUsers } from "../../features/user/userSlice";
@@ -27,7 +27,6 @@ const HomeScreen = () => {
 
   return (
     <div>
-      <Header />
       {isLoading && <p>Loading...</p>}
       {isError && <p> Something went wrong... Please try again </p>}
       {users.length > 0 && (
