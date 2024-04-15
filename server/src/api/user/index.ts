@@ -6,7 +6,7 @@ import UserDependencies from "./services";
 const router = Router();
 
 router.patch(
-  "/update/:user_id",
+  "/:user_id/update",
   RequestHandler.updateUserStatusHandler(UserDependencies, ResponseHandler)
 );
 
@@ -16,7 +16,7 @@ router.get(
 );
 
 router.get(
-  "/profile/:user_id",
+  "/:user_id",
   RequestHandler.getUserByIdHandler(UserDependencies, ResponseHandler)
 );
 
