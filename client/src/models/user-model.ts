@@ -20,3 +20,12 @@ export type NotificationProperties = {
   _id: string;
   request_id: string;
 };
+
+export type UserActionIdProp = {
+  blockedUserId: string;
+  reportUserId: string;
+};
+
+export type BlockUserId = Omit<UserActionIdProp, "reportUserId">;
+
+export type ReportUserId = Omit<UserActionIdProp, "blockedUserId">;

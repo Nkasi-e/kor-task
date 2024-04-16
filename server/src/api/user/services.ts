@@ -69,8 +69,50 @@ const update = async (id: any, data: UpdateInfo): Promise<any> => {
   return updatedStatus;
 };
 
+/**
+ *  block a user using the provided data, and then
+ * calling the UserRepository to block the user.
+ *
+ * @param {any} id - the id of the user
+ * @param {any} blockedUserId - the id of the user to block
+ * @return {Promise<any>} a promise that resolves with the result of blocking the user
+ */
+const blockUser = async (id: any, blockedUserId: any): Promise<any> => {
+  const user = await getUser(id);
+  return await UserRepository.blockUser(user._id, blockedUserId);
+};
+
+/**
+ *  report a user status using the provided data, and then
+ * calling the UserRepository to report the content.
+ *
+ * @param {any} id - the id of the user
+ * @param {any} reportUserId - the id of the user to report
+ * @return {Promise<any>} a promise that resolves with the result of reporting the user status content
+ */
+const reportStatusContent = async (
+  id: any,
+  reportUserId: any
+): Promise<any> => {
+  const user = await getUser(id);
+  return await UserRepository.reportStatus(user._id, reportUserId);
+};
+
+/**
+ * Retrieves all notifications for a user based on the provided user id.
+ *
+ * @param {any} userId - the id of the user
+ * @return {Promise<any>} the list of notifications for the user
+ */
 const getUserNotifications = async (userId: any): Promise<any> => {
   return await NotificationRepository.get(userId);
 };
 
-export default { update, getUser, getAllUsers, getUserNotifications };
+export default {
+  update,
+  getUser,
+  getAllUsers,
+  getUserNotifications,
+  blockUser,
+  reportStatusContent,
+};

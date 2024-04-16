@@ -76,10 +76,39 @@ const getUserNotificationsHandler = (deps: any, presenters: any): any => {
   };
 };
 
+const blockUserHandler = (deps: any, presenters: any): any => {
+  return async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { blockedUserId } = req.body;
+      const payload = await deps.blockUser(req.params.user_id, blockedUserId);
+      return presenters.ok(res, payload);
+    } catch (error: any) {
+      return presenters.error(res, error);
+    }
+  };
+};
+
+const reportUserStausHandler = (deps: any, presenters: any): any => {
+  return async (req: Request, res: Response): Promise<any> => {
+    try {
+      const { reportUserId } = req.body;
+      const payload = await deps.reportStatusContent(
+        req.params.user_id,
+        reportUserId
+      );
+      return presenters.ok(res, payload);
+    } catch (error: any) {
+      return presenters.error(res, error);
+    }
+  };
+};
+
 export default {
   updateUserStatusHandler,
   getUserHandler,
   getUserByIdHandler,
   getAllUserHandler,
   getUserNotificationsHandler,
+  blockUserHandler,
+  reportUserStausHandler,
 };

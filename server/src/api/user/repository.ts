@@ -55,6 +55,25 @@ class UserHandler implements IUserRepository {
     const user = await handleAsyncRequest(UserSchema.findOne({ username }));
     return user;
   }
+
+  async blockUser(id: any, blockedUserId: string): Promise<any> {
+    const user = await handleAsyncRequest(
+      UserSchema.findByIdAndUpdate(id, {
+        $addToSet: { blocked_users: blockedUserId },
+      })
+    );
+    return user;
+  }
+
+  async reportStatus(id: any, reportUserId: string): Promise<any> {
+    const user = await handleAsyncRequest(
+      UserSchema.findByIdAndUpdate(id, {
+        $addToSet: { reported_by: reportUserId },
+        $inc: { report_count: 1 },
+      })
+    );
+    return user;
+  }
 }
 
 const UserRepository = new UserHandler();
