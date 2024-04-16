@@ -42,7 +42,7 @@ class UserHandler implements IUserRepository {
 
   async getAll(): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.find());
-    console.log(user.error);
+
     return user;
   }
 
@@ -53,6 +53,25 @@ class UserHandler implements IUserRepository {
   }
   async findByUsername(username: string): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.findOne({ username }));
+    return user;
+  }
+
+  async blockUser(id: any, blockedUserId: string): Promise<any> {
+    const user = await handleAsyncRequest(
+      UserSchema.findByIdAndUpdate(id, {
+        $addToSet: { blocked_users: blockedUserId },
+      })
+    );
+    return user;
+  }
+
+  async reportStatus(id: any, reportUserId: string): Promise<any> {
+    const user = await handleAsyncRequest(
+      UserSchema.findByIdAndUpdate(id, {
+        $addToSet: { reported_by: reportUserId },
+        $inc: { report_count: 1 },
+      })
+    );
     return user;
   }
 }

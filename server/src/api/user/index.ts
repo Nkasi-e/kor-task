@@ -29,4 +29,15 @@ router.get(
   "/:user_id/notifications",
   RequestHandler.getUserNotificationsHandler(UserDependencies, ResponseHandler)
 );
+
+router.patch(
+  "/:user_id/block",
+  RequestHandler.blockUserHandler(UserDependencies, ResponseHandler)
+);
+
+router.patch(
+  "/:user_id/report",
+  RequestHandler.reportUserStausHandler(UserDependencies, ResponseHandler)
+);
+
 export default router;

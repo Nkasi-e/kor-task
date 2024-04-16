@@ -6,6 +6,9 @@ export interface User {
   email: string;
   status: string;
   friends: string[];
+  blocked_users: string[];
+  report_count: number;
+  reported_by: string[];
 }
 
 export interface IUserRepository {

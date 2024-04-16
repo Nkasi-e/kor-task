@@ -4,6 +4,8 @@ import {
   UserProperties,
   UserUpdateStatus,
   NotificationProperties,
+  BlockUserId,
+  ReportUserId,
 } from "../../models/user-model";
 import axios from "axios";
 import { url } from "../../common/api"; // set to env when on production for best practices
@@ -86,6 +88,49 @@ export const getNotifications = createAsyncThunk(
   }
 );
 
+export const block = createAsyncThunk(
+  "blockUser",
+  async (payload: { userId: string; blockUserData: BlockUserId }, thunkAPI) => {
+    const { userId, blockUserData } = payload;
+    try {
+      const response = await axios.patch(
+        `${url}/users/${userId}/block`,
+        blockUserData
+      );
+      return response.data;
+    } catch (error: any) {
+      const message =
+        (error.response && error.response.data && error.response.data.data) ||
+        error.response.data.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const reportContent = createAsyncThunk(
+  "reportContent",
+  async (
+    payload: { userId: string; reportUserData: ReportUserId },
+    thunkAPI
+  ) => {
+    const { userId, reportUserData } = payload;
+    try {
+      const response = await axios.patch(
+        `${url}/users/${userId}/report`,
+        reportUserData
+      );
+      return response.data;
+    } catch (error: any) {
+      const message =
+        (error.response && error.response.data && error.response.data.data) ||
+        error.response.data.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -151,6 +196,32 @@ const userSlice = createSlice({
         state.notification = action.payload.data;
       })
       .addCase(getNotifications.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload as string;
+      })
+      .addCase(block.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(block.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+      })
+      .addCase(block.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload as string;
+      })
+      .addCase(reportContent.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(reportContent.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
+      })
+      .addCase(reportContent.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload as string;
