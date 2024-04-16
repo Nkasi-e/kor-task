@@ -37,7 +37,7 @@ Below are the list of available implemented features
 - [x] Users on the platform can click on a post to view the profile of the person who owns the post
 - [x] When a friend request is sent to a peer, they get notified of the request on their profile
 - [x] When a request is accepted, the sender get notified of this event
-- [x] When request is declined by a peer, it gets deleted from the server so as to allow for future connections
+- [x] When request is declined by a peer, it gets deleted from the server so as to allow for future connections and no notification is sent for this action.
 - [x] Users can view their profile on their dashboad
 - [x] User can view their notifations when then click on the not icon
 - [x] Users can reports peers status content when they see it inappriopriate
@@ -49,14 +49,14 @@ Below are the list of available implemented features
 
 ### Assumptions
 
-My assumptions are mostly on the user flow, I assumed for a user to be able to send a friend request or report a post they should register or join the platorm so as to have a record of them, also since there is no form of authentication one of the method I assumed was good for remembering a user was to store their data since there is no token attached, using local storage.
-Another assumption was on my schema design how I handle status and users storage, I assumed a user can only update their status without creating a new status, that lead to added the status field of the user document, this by the is not an effiecient method as it makes the schema tightly coupled and making it less flexible to perform operations on the status field, I believe one of the efficient was this should be is making the user and status models a seprate entity which references themselves, that way the status and user entity will be more flexible and independent of each other
+My assumptions primarily revolve around the user experience. I presumed that to engage in actions such as sending friend requests or reporting posts, users must first register or join the platform to establish a record for them. Additionally, in the absence of authentication mechanisms, I opted to remember users by storing their data in local storage, given the absence of token-based authentication.
+Another assumption pertained to the schema design concerning how user statuses are managed. I assumed that users can update their status without creating a new entry, leading to the inclusion of a status field within the user document. However, I acknowledge that this approach may not be the most efficient, as it tightly couples the schema and reduces flexibility in status-related operations. A more efficient approach, in my opinion, would involve separating the user and status models into distinct entities that reference each other. This would enhance flexibility and independence between the status and user entities.
 
 ## API Documentation
 
 ### _Backend_
 
-+**API documentation**:
+**API documentation**:
 
 ## Models (Document) <br>
 
@@ -98,6 +98,8 @@ Another assumption was on my schema design how I handle status and users storage
 | created_at  | -                                                                                               | -                              | Date                            |
 | updated_at  | -                                                                                               | -                              | Date                            |
 
+## API Endpoints
+
 ### Home Page
 
 - Route: /v1/ping
@@ -127,7 +129,7 @@ Another assumption was on my schema design how I handle status and users storage
 
 ```json
 {
-  "email": "johndoe@example.com"
+  "email": "johndoe@gmail.com"
 }
 ```
 
@@ -469,7 +471,29 @@ The same applies to reporting a user content, the ID of the user making the repo
 {
   "code": 200,
   "status": "ok",
-  "data": "Friend request accepted successfully"
+  "data": "Friend request rejected"
+}
+```
+
+**Below is a User Payload with the complete resources**
+
+```json
+{
+  "code": 200,
+  "status": "ok",
+  "data": {
+    "_id": "661d4bc2cc6eff6ccebadf4c",
+    "username": "Trial",
+    "email": null,
+    "status": "Todo list of tomorrow",
+    "friends": ["661c008b7ace2f00a7cb0210"],
+    "createdAt": "2024-04-15T15:46:10.392Z",
+    "updatedAt": "2024-04-16T14:39:11.705Z",
+    "__v": 1,
+    "blocked_users": ["661c008b7ace2f00a7cb0210", "661e77248ebad530f54f1416"],
+    "report_count": 1,
+    "reported_by": ["661d24e6ee41b93bfeb5d9a5"]
+  }
 }
 ```
 

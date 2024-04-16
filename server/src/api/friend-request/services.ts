@@ -98,11 +98,11 @@ const sendFriendRequest = async (data: FriendRequest): Promise<any> => {
  * @param {any} receiver - the receiver of the notification
  * @return {any} the created accept friend request notification
  */
-const createAcceptFriendRequestNotification = (
+const createAcceptFriendRequestNotification = async (
   data: any,
   receiver: any,
   requestId: string
-): any => {
+): Promise<any> => {
   return {
     ...data,
     receiver_id: data.id,
@@ -135,16 +135,15 @@ const acceptFriendRequest = async (requestId: string): Promise<any> => {
 
   Promise.all([receiver?.save(), sender?.save()]);
 
-  io.to(sender?.id).emit("friend_request", {
-    message: `${receiver?.username} accepted your friend request`,
-  });
-  const payload = createAcceptFriendRequestNotification(
+  const payload = await createAcceptFriendRequestNotification(
     sender,
     receiver,
     requestId
   );
   await NotificationRepository.create(payload);
-
+  io.to(sender?.id).emit("friend_request", {
+    message: `${receiver?.username} accepted your friend request`,
+  });
   return await FriendRequestRepository.update(friendRequest.id, {
     status: "accepted",
   });
