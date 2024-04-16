@@ -42,7 +42,7 @@ class UserHandler implements IUserRepository {
 
   async getAll(): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.find());
-    console.log(user.error);
+
     return user;
   }
 
