@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import authService from "./authServices";
+import { url } from "../../common/api";
+import { AuthProperties } from "../../models/user-model";
+import axios from "axios";
 
 const initialState = {
   userInfo: localStorage.getItem("userInfo")
@@ -14,9 +16,10 @@ const initialState = {
 
 export const register = createAsyncThunk(
   "auth/signup",
-  async (user: any, thunkAPI) => {
+  async (userData: AuthProperties, thunkAPI) => {
     try {
-      return await authService.register(user);
+      const response = await axios.post(`${url}/auth/signup/`, userData);
+      return response.data;
     } catch (error: any) {
       const message =
         (error.response && error.response.data && error.response.data.data) ||
@@ -33,7 +36,6 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.userInfo = action.payload;
-      localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
 
     reset: (state) => {
@@ -52,7 +54,10 @@ const authSlice = createSlice({
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.userInfo = action.payload?.data;
+        state.userInfo = localStorage.setItem(
+          "userInfo",
+          JSON.stringify(action.payload.data)
+        );
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;

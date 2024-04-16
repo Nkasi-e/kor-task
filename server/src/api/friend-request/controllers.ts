@@ -11,7 +11,7 @@ const sendFriendRequestHandler = (deps: any, presenters: any): any => {
   return async (req: Request, res: Response): Promise<any> => {
     try {
       await deps.sendFriendRequest(req.body);
-      return presenters.ok(res, "Friend request sent successfully");
+      return presenters.ok(res, "Friend request sent successfully", 201);
     } catch (error: any) {
       return presenters.error(res, error);
     }

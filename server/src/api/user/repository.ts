@@ -1,11 +1,11 @@
 import UserSchema from "./model";
 import { IUserRepository } from "./model/data-type";
-import { handleAsyncRequest, handleResponseFormat } from "../../common/helper";
+import { handleAsyncRequest } from "../../common/helper";
 
 class UserHandler implements IUserRepository {
   async create(data: any): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.create(data));
-    return handleResponseFormat(user);
+    return user;
   }
 
   async update(id: string, data: any): Promise<any> {
@@ -23,12 +23,12 @@ class UserHandler implements IUserRepository {
       UserSchema.findByIdAndUpdate(id, data, options)
     );
 
-    return handleResponseFormat(user);
+    return user;
   }
 
   async findByEmail(email: string): Promise<any> {
-    const userEmail = await handleAsyncRequest(UserSchema.findOne({ email }));
-    return handleResponseFormat(userEmail);
+    const user = await handleAsyncRequest(UserSchema.findOne({ email }));
+    return user;
   }
 
   async findOne(usernameOrEmail: string): Promise<any> {
@@ -37,23 +37,23 @@ class UserHandler implements IUserRepository {
         $or: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
       })
     );
-    return handleResponseFormat(user);
+    return user;
   }
 
   async getAll(): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.find());
     console.log(user.error);
-    return handleResponseFormat(user);
+    return user;
   }
 
   async get(id: any): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.findById(id));
 
-    return handleResponseFormat(user);
+    return user;
   }
   async findByUsername(username: string): Promise<any> {
     const user = await handleAsyncRequest(UserSchema.findOne({ username }));
-    return handleResponseFormat(user);
+    return user;
   }
 }
 

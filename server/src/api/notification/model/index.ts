@@ -5,6 +5,11 @@ const NotificationSchema = new Schema<INotification>(
   {
     id: Schema.Types.ObjectId,
     receiver_id: { type: Schema.Types.ObjectId, ref: "user", required: true },
+    request_id: {
+      type: Schema.Types.ObjectId,
+      ref: "friend_requests",
+      required: true,
+    },
     message: { type: String, required: true },
     type: {
       type: String,

@@ -20,7 +20,7 @@ const validateSignUpRequest = async (data: any): Promise<any> => {
   }
 
   const payload = data.email || data.username;
-  const duplicateData = await UserRepository.findOne(data.username);
+  const duplicateData = await UserRepository.findOne(payload);
 
   if (duplicateData) {
     throw new ConflictRequestError(`User with ${payload} already exists`);

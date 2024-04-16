@@ -1,6 +1,5 @@
 import Joi, { ObjectSchema } from "joi";
 import ErrorMessage from "./customMessage";
-// import { RegisteredUser, RegisterProfile } from "../models";
 
 interface ValidationResult {
   error?: {
@@ -13,7 +12,7 @@ interface ValidationResult {
 
 class Validator {
   private static validateSignupSchema: ObjectSchema = Joi.object({
-    email: Joi.string().min(1).max(100).email().messages(ErrorMessage.email),
+    email: Joi.string().max(100).email().min(1).messages(ErrorMessage.email),
     username: Joi.string().min(3).max(100).messages(ErrorMessage.username),
   });
 

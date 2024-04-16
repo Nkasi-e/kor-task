@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import friendRequestService from "./friendRequestServices";
+import { RequestProperties } from "../../models/friend-request-model";
+import axios from "axios";
+import { url } from "../../common/api";
 
 const initialState = {
   isLoading: false,
@@ -11,9 +13,10 @@ const initialState = {
 
 export const sendRequest = createAsyncThunk(
   "friend-request",
-  async (requestData: any, thunkAPI) => {
+  async (requestData: RequestProperties, thunkAPI) => {
     try {
-      return await friendRequestService.sendRequest(requestData);
+      const response = await axios.post(`${url}/friend-request/`, requestData);
+      return response.data;
     } catch (error: any) {
       const message =
         (error.response && error.response.data && error.response.data.data) ||
@@ -28,7 +31,8 @@ export const acceptRequest = createAsyncThunk(
   "friend-request/accept",
   async (id: string, thunkAPI) => {
     try {
-      return await friendRequestService.acceptRequest(id);
+      const response = await axios.patch(`${url}/friend-request/${id}/accept/`);
+      return response.data;
     } catch (error: any) {
       const message =
         (error.response && error.response.data && error.response.data.data) ||
@@ -43,7 +47,10 @@ export const rejectRequest = createAsyncThunk(
   "friend-request/decline",
   async (id: string, thunkAPI) => {
     try {
-      return await friendRequestService.rejectRequest(id);
+      const response = await axios.patch(
+        `${url}/friend-request/${id}/decline/`
+      );
+      return response.data;
     } catch (error: any) {
       const message =
         (error.response && error.response.data && error.response.data.data) ||

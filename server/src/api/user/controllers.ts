@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 
 /**
  * Handles user update by updating an existing account info.
@@ -66,9 +65,21 @@ const getAllUserHandler = (deps: any, presenters: any): any => {
   };
 };
 
+const getUserNotificationsHandler = (deps: any, presenters: any): any => {
+  return async (req: Request, res: Response): Promise<any> => {
+    try {
+      const payload = await deps.getUserNotifications(req.params.user_id);
+      return presenters.ok(res, payload);
+    } catch (error: any) {
+      return presenters.error(res, error);
+    }
+  };
+};
+
 export default {
   updateUserStatusHandler,
   getUserHandler,
   getUserByIdHandler,
   getAllUserHandler,
+  getUserNotificationsHandler,
 };

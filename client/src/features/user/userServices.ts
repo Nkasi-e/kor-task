@@ -2,12 +2,13 @@ import Api from "../../common/api";
 import { UserUpdateStatus } from "../../models/user-model";
 
 const getUsers = async () => {
-  const response = await Api.get("/users/");
+  const response = await Api.get("localhost:8000/v1/users/");
   return response.data;
 };
 
 const updateStatus = async (userId: string, statusData: UserUpdateStatus) => {
   const response = await Api.patch(`/users/${userId}/update`, statusData);
+  console.log(response);
   return response.data;
 };
 

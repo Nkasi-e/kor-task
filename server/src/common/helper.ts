@@ -19,7 +19,7 @@ const handleResponseFormat = (data: any, projections = []): Promise<any> => {
     return Promise.resolve(null);
   }
   if (data.toObject) {
-    data = data.toObject();
+    data = data.toArray();
   }
   if (data.toJSON) {
     data = data.toJSON();
