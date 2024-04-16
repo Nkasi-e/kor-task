@@ -47,6 +47,11 @@ Below are the list of available implemented features
 <!-- - Note: The unchecked box means those particular feature are not ready yet but still under production or building.
 - More features may still be added to the `Diary API` as an update, until it is fully ready. -->
 
+### Assumptions
+
+My assumptions are mostly on the user flow, I assumed for a user to be able to send a friend request or report a post they should register or join the platorm so as to have a record of them, also since there is no form of authentication one of the method I assumed was good for remembering a user was to store their data since there is no token attached, using local storage.
+Another assumption was on my schema design how I handle status and users storage, I assumed a user can only update their status without creating a new status, that lead to added the status field of the user document, this by the is not an effiecient method as it makes the schema tightly coupled and making it less flexible to perform operations on the status field, I believe one of the efficient was this should be is making the user and status models a seprate entity which references themselves, that way the status and user entity will be more flexible and independent of each other
+
 ## API Documentation
 
 ### _Backend_
