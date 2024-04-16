@@ -12,3 +12,11 @@ export type UserUpdateStatus = Omit<
   UserProperties,
   "id" | "email" | "username" | "friends"
 >;
+
+export type NotificationProperties = {
+  message: string;
+  type: string;
+  created_at: string;
+  _id: string;
+  request_id: string;
+};

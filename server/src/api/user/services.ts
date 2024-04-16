@@ -3,6 +3,7 @@ import Validator from "../../common/validator";
 import { UpdateInfo } from "./model/data-type";
 import BadRequestError from "../../error/BadRequestError";
 import { io } from "../../server";
+import NotificationRepository from "../notification/repository";
 
 /**
  * Validates the update information request data and throws errors for invalid data.
@@ -68,4 +69,8 @@ const update = async (id: any, data: UpdateInfo): Promise<any> => {
   return updatedStatus;
 };
 
-export default { update, getUser, getAllUsers };
+const getUserNotifications = async (userId: any): Promise<any> => {
+  return await NotificationRepository.get(userId);
+};
+
+export default { update, getUser, getAllUsers, getUserNotifications };

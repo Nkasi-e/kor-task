@@ -25,4 +25,8 @@ router.get(
   RequestHandler.getAllUserHandler(UserDependencies, ResponseHandler)
 );
 
+router.get(
+  "/:user_id/notifications",
+  RequestHandler.getUserNotificationsHandler(UserDependencies, ResponseHandler)
+);
 export default router;

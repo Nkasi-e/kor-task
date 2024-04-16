@@ -13,6 +13,7 @@ import {
 import HomeScreen from "./pages/home";
 import RegisterScreen from "./pages/register";
 import ProfileScreen from "./pages/dashboard";
+import NotificationScreen from "./pages/notification";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,10 +21,7 @@ const router = createBrowserRouter(
       <Route index={true} path="/" element={<HomeScreen />} />
       <Route path="/join" element={<RegisterScreen />} />
       <Route path="/profile" element={<ProfileScreen />} />
-      {/* 
-      <Route path='' element={<PrivateRoute />}>
-        <Route path='/profile' element={<ProfileScreen />} />
-      </Route> */}
+      <Route path="/notification" element={<NotificationScreen />} />
     </Route>
   )
 );
@@ -31,6 +29,5 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <RouterProvider router={router} />
-    {/* <App /> */}
   </Provider>
 );

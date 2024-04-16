@@ -1,12 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { UserProperties, UserUpdateStatus } from "../../models/user-model";
+import {
+  UserProperties,
+  UserUpdateStatus,
+  NotificationProperties,
+} from "../../models/user-model";
 import axios from "axios";
 import { url } from "../../common/api"; // set to env when on production for best practices
 
 const initialState = {
   users: [] as UserProperties[],
   user: {} as UserProperties,
+  notification: [] as NotificationProperties[],
   isLoading: false,
   isSuccess: false,
   isError: false,
@@ -65,6 +70,22 @@ export const updateStatus = createAsyncThunk(
   }
 );
 
+export const getNotifications = createAsyncThunk(
+  "notifications",
+  async (userId: string, thunkAPI) => {
+    try {
+      const response = await axios.get(`${url}/users/${userId}/notifications`);
+      return response.data;
+    } catch (error: any) {
+      const message =
+        (error.response && error.response.data && error.response.data.data) ||
+        error.response.data.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -72,6 +93,7 @@ const userSlice = createSlice({
     reset: (state) => {
       state.users = [];
       state.user = {} as UserProperties;
+      state.notification = [] as NotificationProperties[];
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;
@@ -116,6 +138,19 @@ const userSlice = createSlice({
         state.user = action.payload.data;
       })
       .addCase(getUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload as string;
+      })
+      .addCase(getNotifications.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getNotifications.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.notification = action.payload.data;
+      })
+      .addCase(getNotifications.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload as string;

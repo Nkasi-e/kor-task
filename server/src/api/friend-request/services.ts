@@ -35,10 +35,15 @@ const validateRequest = (data: any): Promise<any> => {
  * @param {any} sender - the sender object containing sender details
  * @return {any} the updated data object with the notification details
  */
-const createSendFriendRequestNotification = (data: any, sender: any): any => {
+const createSendFriendRequestNotification = async (
+  data: any,
+  sender: any,
+  requestId: string
+): Promise<any> => {
   return {
     ...data,
     receiver_id: data.receiver_id,
+    request_id: requestId,
     message: `You have a new friend request from ${sender.username}`,
     type: "friend_request",
   };
@@ -73,11 +78,17 @@ const sendFriendRequest = async (data: FriendRequest): Promise<any> => {
   io.to(receiver.id).emit("friend_request", {
     message: `You have a new friend request from ${sender.username}`,
   });
-  const payload = createSendFriendRequestNotification(data, sender);
+  const friendRequest = await FriendRequestRepository.create(data);
+
+  const payload = await createSendFriendRequestNotification(
+    data,
+    sender,
+    friendRequest._id
+  );
 
   await NotificationRepository.create(payload);
 
-  return await FriendRequestRepository.create(data);
+  return friendRequest;
 };
 
 /**
@@ -89,11 +100,13 @@ const sendFriendRequest = async (data: FriendRequest): Promise<any> => {
  */
 const createAcceptFriendRequestNotification = (
   data: any,
-  receiver: any
+  receiver: any,
+  requestId: string
 ): any => {
   return {
     ...data,
     receiver_id: data.id,
+    request_id: requestId,
     message: `${receiver.username} accepted your friend request`,
     type: "friend_request_accepted",
   };
@@ -125,7 +138,11 @@ const acceptFriendRequest = async (requestId: string): Promise<any> => {
   io.to(sender?.id).emit("friend_request", {
     message: `${receiver?.username} accepted your friend request`,
   });
-  const payload = createAcceptFriendRequestNotification(sender, receiver);
+  const payload = createAcceptFriendRequestNotification(
+    sender,
+    receiver,
+    requestId
+  );
   await NotificationRepository.create(payload);
 
   return await FriendRequestRepository.update(friendRequest.id, {
