@@ -60,7 +60,7 @@ class UserHandler implements IUserRepository {
     const user = await handleAsyncRequest(
       UserSchema.findByIdAndUpdate(id, {
         $addToSet: { blocked_users: blockedUserId },
-      })
+      }).lean()
     );
     return user;
   }
