@@ -44,7 +44,7 @@ const RegisterScreen = () => {
     try {
       dispatch(register(formDataToSend)).unwrap();
       toast.success("Account created successfully");
-      navigate("/profile");
+      navigate("/");
     } catch (error: unknown) {
       toast.error(error as string);
     }
@@ -60,7 +60,7 @@ const RegisterScreen = () => {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h2 className="text-2xl font-bold mb-4">
-        Join with either username or password
+        Join with either username or email
       </h2>
       <form
         className="flex flex-col items-center space-y-4"

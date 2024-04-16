@@ -46,21 +46,7 @@ const HomeScreen = () => {
                     {user.username ? user.username : user.email}
                   </h3>
                   <h4 className="text-semibold">status</h4>
-                  <p>
-                    {user.status ? (
-                      user.status
-                    ) : (
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Modi non, voluptatum culpa exercitationem doloribus,
-                        error impedit qui vel, debitis ratione aspernatur atque
-                        est veniam rerum perspiciatis soluta possimus. Obcaecati
-                        officia minus quas accusantium non ratione nesciunt,
-                        repellendus officiis, commodi aliquam hic voluptatibus
-                        earum! Nam, iure.
-                      </p>
-                    )}
-                  </p>
+                  <p>{user.status}</p>
                 </div>
               </div>
             </div>

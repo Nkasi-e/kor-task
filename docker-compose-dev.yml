@@ -1,0 +1,57 @@
+version: "3.9"
+services:
+  client-connect:
+    image: kor-client
+    build:
+      context: ./client/
+      dockerfile: ./client/Dockerfile
+    init: true
+    volumes:
+      - type: bind
+        source: ./client
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+    networks:
+      - frontend
+    ports:
+      - 5173:5173
+    restart: unless-stopped
+  api-connect:
+    image: kor-server
+    build:
+      context: ./server/
+      dockerfile: ./server/Dockerfile.
+      target: dev
+    init: true
+    volumes:
+      - type: bind
+        source: ./server
+        target: /usr/src/app/
+      - type: volume
+        target: /usr/src/app/node_modules
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=mongodb://root:example@mongo:27017/foo
+    networks:
+      - frontend
+      - backend
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+  db:
+    image: mongo
+    volumes:
+      - mongodata:/data/db
+    environment:
+      - MONGO_INITDB_PASSWORD=foobarbaz
+    networks:
+      - backend
+    ports:
+      - 27017:27017
+volumes:
+  mongodata:
+networks:
+  frontend:
+  backend:
