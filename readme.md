@@ -486,13 +486,34 @@ The same applies to reporting a user content, the ID of the user making the repo
     "username": "Trial",
     "email": null,
     "status": "Todo list of tomorrow",
-    "friends": ["661c008b7ace2f00a7cb0210"],
+    "friends": [
+      {
+        "_id": "661c008b7ace2f00a7cb0210",
+        "username": "tJerry",
+        "email": null
+      }
+    ],
     "createdAt": "2024-04-15T15:46:10.392Z",
     "updatedAt": "2024-04-16T14:39:11.705Z",
     "__v": 1,
-    "blocked_users": ["661c008b7ace2f00a7cb0210", "661e77248ebad530f54f1416"],
+    "blocked_users": [
+      {
+        "_id": "661c008b7ace2f00a7cb0210",
+        "username": "tJerry",
+        "email": null
+      },
+      {
+        "_id": "661e77248ebad530f54f1416",
+        "email": "johndoe@gmail.com"
+      }
+    ],
     "report_count": 1,
-    "reported_by": ["661d24e6ee41b93bfeb5d9a5"]
+    "reported_by": [
+      {
+        "_id": "661d24e6ee41b93bfeb5d9a5",
+        "email": "nkasi@gmail.com"
+      }
+    ]
   }
 }
 ```
