@@ -4,13 +4,18 @@ export type UserProperties = {
   username?: string;
   status: string;
   friends?: [];
+  blocked_users?: [];
+  reported_by?: [];
 };
 
-export type AuthProperties = Omit<UserProperties, "id" | "status" | "friends">;
+export type AuthProperties = Omit<
+  UserProperties,
+  "id" | "status" | "friends" | "blocked_users" | "reported_by"
+>;
 
 export type UserUpdateStatus = Omit<
   UserProperties,
-  "id" | "email" | "username" | "friends"
+  "id" | "email" | "username" | "friends" | "blocked_users" | "reported_by"
 >;
 
 export type NotificationProperties = {

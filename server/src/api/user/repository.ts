@@ -47,7 +47,13 @@ class UserHandler implements IUserRepository {
   }
 
   async get(id: any): Promise<any> {
-    const user = await handleAsyncRequest(UserSchema.findById(id));
+    const user = await handleAsyncRequest(
+      UserSchema.findById(id)
+        .populate("friends", ["username", "email", "status "])
+        .populate("blocked_users", ["username", "email"])
+        .populate("reported_by", ["username", "email"])
+        .exec()
+    );
 
     return user;
   }

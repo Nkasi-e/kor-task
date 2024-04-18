@@ -1,4 +1,4 @@
-import { app } from "../server";
+import { app, server } from "../server";
 
 let connection: any;
 
@@ -18,7 +18,7 @@ const initializeWebServer = (customMiddleware?: any): Promise<any> => {
 
       //start server
       const webServerPort = process.env.PORT ? process.env.PORT : null;
-      connection = app.listen(webServerPort, () => {
+      connection = server.listen(webServerPort, () => {
         console.log(`Web server started on port ${webServerPort}`);
         resolve(connection.address());
       });
