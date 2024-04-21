@@ -81,7 +81,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0  h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+    <div className="fixed top-0 left-0 w-full  h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
       <div className="bg-white p-8 rounded shadow-md">
         <h2 className="text-xl font-semibold mb-4">Profile: {name}</h2>
         <p>Status: {user.status}</p>
@@ -93,14 +93,14 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
             Close
           </button>
         </div>
-        <div className="flex flex-row align-center justify-between">
+        <div className="flex gap-4 items-center justify-between">
           <button
             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
             onClick={handleSendFriendRequest}
           >
             Send Friend Request
           </button>
-          <div className="flex flex-row align-center gap-4">
+          <div className="flex flex-row items-center gap-4">
             <button
               className="mt-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
               onClick={handleBlockUser}
