@@ -20,7 +20,7 @@ const RegisterScreen = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate("/");
+      navigate("/profile");
     }
   }, [navigate, userInfo]);
 
@@ -32,7 +32,6 @@ const RegisterScreen = () => {
   };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formDataToSend);
     if (!formData.username && !formData.email) {
       toast.error("Please enter username or email");
       return;
@@ -44,7 +43,7 @@ const RegisterScreen = () => {
     try {
       dispatch(register(formDataToSend)).unwrap();
       toast.success("Account created successfully");
-      navigate("/");
+      navigate("/profile");
     } catch (error: unknown) {
       toast.error(error as string);
     }

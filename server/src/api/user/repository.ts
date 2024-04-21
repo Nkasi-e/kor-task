@@ -41,7 +41,9 @@ class UserHandler implements IUserRepository {
   }
 
   async getAll(): Promise<any> {
-    const user = await handleAsyncRequest(UserSchema.find());
+    const user = await handleAsyncRequest(
+      UserSchema.find().sort({ updatedAt: -1 })
+    );
 
     return user;
   }
